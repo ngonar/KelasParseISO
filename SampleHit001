@@ -1,0 +1,25 @@
+import java.io.IOException;
+import java.io.InputStreamReader; import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TestSocket {
+private final static String IP_SERVER = "xxx.xxx.xxx.xxx"; private final static Integer PORT_SERVER = xxxx;
+    public static void main(String[] args) throws UnknownHostException, IOException {
+        Socket clientSocket = new Socket(IP_SERVER, PORT_SERVER);
+        String networkRequest = "2100403000418081000005995040000105812672014050515204060210745100170745102060000000000000979031000000022111 2365210000000000000";
+        PrintWriter outgoing = new PrintWriter(clientSocket.getOutputStream()); InputStreamReader incoming = new InputStreamReader(clientSocket.getInputStream());
+        String trailer = new String(new char[] {10});
+        //kirim outgoing.print(networkRequest+trailer); 
+        outgoing.flush();
+
+        int data;
+        StringBuffer sb = new StringBuffer();
+        while((data = incoming.read()) != 10 ) { 
+             sb.append((char) data);
+        }
+        
+        System.out.println("Rec. Msg ["+sb.toString()+"] len ["+sb.toString().length()+"]");
+        outgoing.close(); incoming.close(); clientSocket.close();
+     } 
+}
